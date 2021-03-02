@@ -6,8 +6,8 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 
-public class ItemSerdes extends Serdes.WrapperSerde<Item>{
-    public ItemSerdes(){
+public class ItemSerdes extends Serdes.WrapperSerde<Item> {
+    public ItemSerdes() {
         super(new JsonSerializer<>(), new JsonDeserializer<>(Item.class));
     }
 }

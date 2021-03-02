@@ -14,7 +14,7 @@ public class Item {
     private String cate;
 
     @JsonCreator
-    public Item(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("cate") String cate){
+    public Item(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("cate") String cate) {
         this.id = id;
         this.name = name;
         this.cate = cate;

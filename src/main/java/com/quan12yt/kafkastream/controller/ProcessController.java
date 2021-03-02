@@ -21,15 +21,15 @@ public class ProcessController {
 
     private KafkaStreams streams;
 
-    private Properties properties(){
+    private Properties properties() {
         Properties pro = new Properties();
         pro.put(StreamsConfig.APPLICATION_ID_CONFIG, "test-id");
         pro.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         return pro;
     }
 
-    private void streamStart(StreamsBuilder builder){
-        if (streams != null){
+    private void streamStart(StreamsBuilder builder) {
+        if (streams != null) {
             streams.close();
         }
         final Topology topology = builder.build();
@@ -42,12 +42,12 @@ public class ProcessController {
     ProducerController producerController;
 
     @RequestMapping("/start/")
-    public void startJoin(){
+    public void startJoin() {
         final StreamsBuilder builder = new StreamsBuilder();
         KStream<String, Item> leftSource = builder.stream("left-topic"
-        , Consumed.with(Serdes.String(), new ItemSerdes()));
+                , Consumed.with(Serdes.String(), new ItemSerdes()));
         KStream<String, Item> rightSource = builder.stream("right-topic"
-        , Consumed.with(Serdes.String(), new ItemSerdes()));
+                , Consumed.with(Serdes.String(), new ItemSerdes()));
 
         KStream<String, Item> joined = leftSource
                 .selectKey((key, value) -> key)
@@ -69,11 +69,11 @@ public class ProcessController {
     }
 
     @GetMapping("/countMessage")
-    public void countMessage(){
+    public void countMessage() {
         StreamsBuilder builder = new StreamsBuilder();
-        KStream<String, Item> stream =  builder.stream("left-topic"
+        KStream<String, Item> stream = builder.stream("left-topic"
                 , Consumed.with(Serdes.String(), new ItemSerdes()));
-        stream.groupBy((k, v) -> k)
+        stream.groupByKey()
                 .count()
                 .toStream()
                 .foreach((k, v) -> System.out.println("count: " + v));
