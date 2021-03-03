@@ -1,6 +1,6 @@
 package com.quan12yt.kafkastream.utils;
 
-import com.quan12yt.kafkastream.utils.Item;
+
 import org.apache.kafka.common.serialization.Serdes;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;

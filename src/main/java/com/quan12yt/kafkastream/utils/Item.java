@@ -11,13 +11,13 @@ public class Item {
 
     private Integer id;
     private String name;
-    private String cate;
+    private Long quantity;
 
     @JsonCreator
-    public Item(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("cate") String cate) {
+    public Item(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("quantity") Long quantity) {
         this.id = id;
         this.name = name;
-        this.cate = cate;
+        this.quantity = quantity;
     }
 
 }

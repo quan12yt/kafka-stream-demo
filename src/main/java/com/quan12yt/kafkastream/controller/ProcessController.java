@@ -54,7 +54,7 @@ public class ProcessController {
                 .join(rightSource.selectKey((key, value) -> key)
                         , (value1, value2) -> {
                             System.out.println("value2.getName() >> " + value1.getName() + value2.getName());
-                            value2.setCate(value1.getCate());
+                            value2.setQuantity(value1.getQuantity() + value2.getQuantity());
                             return value2;
                         }
                         , JoinWindows.of(Duration.ofSeconds(20))
@@ -73,10 +73,9 @@ public class ProcessController {
         StreamsBuilder builder = new StreamsBuilder();
         KStream<String, Item> stream = builder.stream("left-topic"
                 , Consumed.with(Serdes.String(), new ItemSerdes()));
-        stream.groupByKey()
-                .count()
-                .toStream()
-                .foreach((k, v) -> System.out.println("count: " + v));
+        KStream<String, Long> test = stream.selectKey((k, v) -> k).groupByKey( Grouped.with(Serdes.String(), new ItemSerdes())).count().toStream();
+        test.to("test-count", Produced.with(Serdes.String(), Serdes.Long()));
+        test.foreach((k, v) -> System.out.println("Key : " + k + "--count: " + v));
         streamStart(builder);
     }
 }
